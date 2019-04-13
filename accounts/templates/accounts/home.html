@@ -11,7 +11,7 @@
 
 <a href="{% url 'accounts:all_users'%}">Users</a>
 <a href="{% url 'accounts:show_sent' %}">Sent Requests</a>
-<a href="">Recieved Requests</a>
+<a href="{% url 'accounts:show_recieve'%}">Recieved Requests</a>
 
 	
 <br><br>
@@ -19,7 +19,7 @@
 
 	{% if friends %}
 		{% for friend in friends %}
-			{{friend}} &nbsp;&nbsp;&nbsp;&nbsp;<a href=""> Send Message</a><br>
+			{{friend}} &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'chat:show_message' friend.id%}"> Send Message</a><br>
 		{% endfor %}
 	{% else %}
 		You are not connected to anyone

@@ -1,0 +1,19 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}
+	Recieved Requests
+{% endblock %}
+
+{% block content %}
+
+	Recieved Requests:<br><Br>
+	{% if requests %}
+		{% for request in requests %}
+			{{request.from_user}}&nbsp;&nbsp;&nbsp;<a href="{% url 'accounts:accept_request' request.from_user.id %}">Accept </a>&nbsp;&nbsp;<a href="">Cancel </a>
+		{% endfor %}
+	{% else %}
+		You have no friend requests.
+	{% endif%}
+
+
+{% endblock %}

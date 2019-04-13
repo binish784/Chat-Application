@@ -37,6 +37,13 @@ def show_send_requests(request):
 	}
 	return render(request,'accounts/sentRequest.html',context)
 
+def show_recieve_requests(request):
+	requests=friendRequest.objects.filter(to_user=request.user)
+	context={
+		'requests':requests,
+	}
+	return render(request,'accounts/recieveRequest.html',context)
+
 def send_friend_request(request,id):
 	to_user=get_object_or_404(User,id=id)
 	from_user=request.user
@@ -56,12 +63,13 @@ def cancel_friend_request(request,id):
 	return HttpResponseRedirect('/')
 
 def accept_friend_request(request,id):
-	to_user=get_object_or_404(User,id=id)
-	frequest=friendRequest.objects.filter(to_user=to_user,from_user=request.user).first()
-	user1=to_user
+	user1=get_object_or_404(User,id=id)
 	user2=request.user
-	user1.Profile.friends.add(user2.Profile)
-	user2.Profile.friends.add(user1.Profile)
+	frequest=friendRequest.objects.filter(to_user=user2,from_user=user1).first()
+	user1_profile=Profile.objects.get(user=user1)
+	user2_profile=Profile.objects.get(user=user2)
+	user1_profile.friends.add(user2_profile)
+	user2_profile.friends.add(user1_profile)
 	frequest.delete()
-	return HttpResponseRedirect('')
+	return HttpResponseRedirect('/')
 

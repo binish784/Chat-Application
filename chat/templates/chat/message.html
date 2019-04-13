@@ -1,0 +1,101 @@
+{% extends 'accounts/base.html' %}
+
+{% load static %}
+
+{% block title %}
+	Send Message
+{% endblock %}
+
+{% block content %}
+
+
+	{% if message %}
+		{{message}}
+
+	{% endif %}
+<a href="{% url 'accounts:index' %}">Go Home</a>
+
+{% if status %}
+<form method="GET" action="{% url 'chat:send_message' reciever_id %}" id='msgForm'>
+
+{% csrf_token %}	
+	{{form}}
+	<input type="Submit" value="Send">
+</form>
+<br>
+
+<div id='msgBlock' get_msg_action="{% url 'chat:get_message' reciever_id %}">
+
+{% if messages %}
+	{% for msg in messages %}
+
+		{% if msg.message_to == request.user%}
+
+			<p style="color: red">{{msg.message}}</p>
+
+		{% else %}
+
+			<p style="color:green">{{msg.message}}</p>
+
+		{% endif%}
+
+	{% endfor %}
+{% else %}
+	Start an conversation now
+{% endif %}
+
+</div>
+	
+{% endif %}
+
+{% endblock %}
+
+{% block script %}
+ 	
+	<script type="text/javascript" src="{% static 'chat/safeAjax.js' %}"></script>
+
+	<script type="text/javascript">
+
+		form=$("#msgForm");
+		msgBlock=$("#msgBlock");
+
+		form.submit(function(e){
+			e.preventDefault();
+			$formData=form.serialize();
+			$.ajax({
+				method:form.attr('method'),
+				url:form.attr('action'),
+				data:$formData,
+				dataType:'json',
+				contentType:'application/json',
+				success:function(data){
+
+					$("#id_message").val("");
+					console.log(data);
+				}
+			})			
+		})
+
+			setInterval(function(){
+				$.ajax({
+					method:'GET',
+					url:msgBlock.attr('get_msg_action'),
+					dataType:'json',
+					contentType:'application/json',
+					success:function(data){
+						msgBlock.html("")
+						for(var key in data.messages){
+							if(data.messages[key].status){
+								msgBlock.append("<p style='color:red'>"+ data.messages[key].message+"</p>");
+							}else{
+								msgBlock.append("<p style='color:green'>"+ data.messages[key].message+"</p>");
+							}
+						}
+					}
+				})
+			},500)
+
+
+	</script>
+
+{% endblock %}
