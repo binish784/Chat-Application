@@ -1,0 +1,24 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}
+	All - Users
+{% endblock %}
+
+{% block content %}
+	
+All Users
+
+		<br><br>
+{% if all_users %}
+
+		{% for user in all_users %}
+			&nbsp;&nbsp;&nbsp;&nbsp;{{user}} <a href="{% url 'accounts:send_request' user.id %}">Send Request</a><br>
+		{% endfor %}
+
+	{% else %}
+
+		No users currently available
+
+	{% endif %}
+
+{% endblock %}

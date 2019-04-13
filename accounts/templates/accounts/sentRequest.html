@@ -1,0 +1,18 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}
+	Requests Sent
+{% endblock %}
+
+{% block content %}
+	The requests you sent will appear here
+<br><br>
+	{% if requests %}
+		{% for request in requests %}
+			{{request.to_user}}&nbsp;&nbsp;&nbsp;<a href="{% url 'accounts:cancel_sent' request.to_user.id%}">Cancel Request</a><br>
+		{% endfor %}
+	{% else %}
+		You have no requests currently
+	{% endif %}
+
+{% endblock %}

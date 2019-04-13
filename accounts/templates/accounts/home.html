@@ -1,0 +1,28 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}
+	Home-Page
+{% endblock %}
+
+{% block content %}
+	<br><br>Welcome-to-my-homepage &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="{% url 'accounts:logout' %}">Logout</a>
+	<br><br>
+
+<a href="{% url 'accounts:all_users'%}">Users</a>
+<a href="{% url 'accounts:show_sent' %}">Sent Requests</a>
+<a href="">Recieved Requests</a>
+
+	
+<br><br>
+	Connected to : <br><br>
+
+	{% if friends %}
+		{% for friend in friends %}
+			{{friend}} &nbsp;&nbsp;&nbsp;&nbsp;<a href=""> Send Message</a><br>
+		{% endfor %}
+	{% else %}
+		You are not connected to anyone
+	{% endif %}
+
+{% endblock %}
