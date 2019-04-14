@@ -1,0 +1,49 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}
+	All messages
+{% endblock %}
+
+{% block content %}
+	
+	All conversations are shown here
+<br><br>
+<div id="Convo_block" convo_get_action="{% url 'chat:get_all_messages' %}">
+	
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript">
+	
+
+convoBlock=$("#Convo_block");
+
+setInterval(function(){
+	
+
+
+$.ajax({
+	method:'GET',
+	dataType:'json',
+	contentType:'application/json',
+	url:convoBlock.attr('convo_get_action'),
+	success:function(data){
+		convoBlock.html("");
+		for(var key in data.all_messages){
+			convoBlock.append(data.all_messages[key].user + " : ");
+			convoBlock.append(data.all_messages[key].msg +"<br><br>");
+
+		}
+
+	}
+});
+
+},500);	
+
+
+</script>
+
+{% endblock %}

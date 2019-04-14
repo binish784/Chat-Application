@@ -2,6 +2,7 @@ from django.shortcuts import render,get_object_or_404
 
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.db.models import Q
 
 from .forms import ChatForm
 
@@ -75,4 +76,27 @@ def getMessage(request,id):
 	data={
 		'messages':data_set,
 	}
-	return JsonResponse(data)	
+	return JsonResponse(data)
+
+def show_all_Message(request):
+	return render(request,'chat/showMessage.html',{})
+
+def get_all_Message(request):
+	data_set=[]
+	convo_users=User.objects.filter(
+			Q(message_to__message_from=request.user)|
+			Q(message_from__message_to=request.user)
+		).distinct()
+	for convo in convo_users:
+		msg=chat.objects.filter(
+			Q(message_to=request.user,message_from=convo) |
+			Q(message_to=convo, message_from=request.user)).last()
+		data_pack={
+			'user':convo.username,
+			'msg':msg.message,
+		}
+		data_set.append(data_pack)
+	data={
+		'all_messages':data_set,
+	}
+	return JsonResponse(data)

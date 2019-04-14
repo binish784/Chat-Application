@@ -13,3 +13,4 @@ class chat(models.Model):
 
 	def __str__(self):
 		return  str(self.message_from) + " - " +str(self.message_to)  + " : " + str(self.message) 
+
