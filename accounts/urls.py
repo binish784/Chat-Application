@@ -16,6 +16,8 @@ urlpatterns = [
 	path('cancelRequests/<int:id>',views.cancel_friend_request,name='cancel_sent'),
 	path('recieveRequests/',views.show_recieve_requests,name='show_recieve'),
 	path('acceptRequest/<int:id>',views.accept_friend_request,name='accept_request'),
+	path('profile/<int:id>',views.user_profile,name='user_profile'),
+	path('unfriend/<int:id>',views.unfriend_user,name='unfriend_user'),
 
 	path('login/',auth_views.login,name='login'),
 	path('logout/',auth_views.logout,name='logout'),

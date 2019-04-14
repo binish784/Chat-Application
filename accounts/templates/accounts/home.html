@@ -19,7 +19,7 @@
 
 	{% if friends %}
 		{% for friend in friends %}
-			{{friend}} &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'chat:show_message' friend.id%}"> Send Message</a><br>
+			<a href="{% url 'accounts:user_profile' friend.id %}">{{friend}}</a> &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'chat:show_message' friend.id%}"> Send Message</a><br>
 		{% endfor %}
 	{% else %}
 		You are not connected to anyone

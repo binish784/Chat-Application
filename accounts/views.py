@@ -4,7 +4,6 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
-
 from django.http import HttpResponseRedirect
 from django.db.models import Q
 
@@ -73,3 +72,18 @@ def accept_friend_request(request,id):
 	frequest.delete()
 	return HttpResponseRedirect('/')
 
+
+def unfriend_user(request,id):
+	selected_user=get_object_or_404(User,id=id)
+	user1_profile=Profile.objects.get(user=request.user)
+	user2_profile=Profile.objects.get(user=selected_user)
+	user1_profile.friends.remove(user2_profile)
+	user2_profile.friends.remove(user1_profile)
+	return HttpResponseRedirect('/')
+
+def user_profile(request,id):
+	selected_user=get_object_or_404(User,id=id)
+	context={
+		'selected_user':selected_user,
+	}
+	return render(request,'accounts/profile.html',context)

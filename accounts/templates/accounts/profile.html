@@ -1,0 +1,12 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}
+	User-Profile
+{% endblock %}
+
+
+{% block content %}
+
+{{selected_user.username}} &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'accounts:unfriend_user' selected_user.id%}">unFriend</a>
+
+{% endblock %}
